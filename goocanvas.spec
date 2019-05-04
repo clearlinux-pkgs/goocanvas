@@ -4,24 +4,27 @@
 #
 Name     : goocanvas
 Version  : 2.0.4
-Release  : 5
+Release  : 6
 URL      : https://download.gnome.org/sources/goocanvas/2.0/goocanvas-2.0.4.tar.xz
 Source0  : https://download.gnome.org/sources/goocanvas/2.0/goocanvas-2.0.4.tar.xz
-Summary  : A GTK+ canvas widget using cairo
+Summary  : A cairo canvas widget for GTK+
 Group    : Development/Tools
 License  : LGPL-2.0
-Requires: goocanvas-lib
-Requires: goocanvas-doc
-Requires: goocanvas-locales
-Requires: goocanvas-data
+Requires: goocanvas-data = %{version}-%{release}
+Requires: goocanvas-lib = %{version}-%{release}
+Requires: goocanvas-license = %{version}-%{release}
+Requires: goocanvas-locales = %{version}-%{release}
+Requires: goocanvas-python = %{version}-%{release}
+Requires: goocanvas-python3 = %{version}-%{release}
+BuildRequires : buildreq-gnome
 BuildRequires : docbook-xml
 BuildRequires : gettext
 BuildRequires : glibc-bin
-BuildRequires : gobject-introspection-dev
 BuildRequires : gtk+-dev
 BuildRequires : gtk-doc
 BuildRequires : gtk-doc-dev
 BuildRequires : libxslt-bin
+BuildRequires : perl
 BuildRequires : perl(XML::Parser)
 BuildRequires : pkgconfig(gtk+-3.0)
 BuildRequires : pkgconfig(pygobject-3.0)
@@ -42,9 +45,10 @@ data components for the goocanvas package.
 %package dev
 Summary: dev components for the goocanvas package.
 Group: Development
-Requires: goocanvas-lib
-Requires: goocanvas-data
-Provides: goocanvas-devel
+Requires: goocanvas-lib = %{version}-%{release}
+Requires: goocanvas-data = %{version}-%{release}
+Provides: goocanvas-devel = %{version}-%{release}
+Requires: goocanvas = %{version}-%{release}
 
 %description dev
 dev components for the goocanvas package.
@@ -61,10 +65,19 @@ doc components for the goocanvas package.
 %package lib
 Summary: lib components for the goocanvas package.
 Group: Libraries
-Requires: goocanvas-data
+Requires: goocanvas-data = %{version}-%{release}
+Requires: goocanvas-license = %{version}-%{release}
 
 %description lib
 lib components for the goocanvas package.
+
+
+%package license
+Summary: license components for the goocanvas package.
+Group: Default
+
+%description license
+license components for the goocanvas package.
 
 
 %package locales
@@ -75,6 +88,24 @@ Group: Default
 locales components for the goocanvas package.
 
 
+%package python
+Summary: python components for the goocanvas package.
+Group: Default
+Requires: goocanvas-python3 = %{version}-%{release}
+
+%description python
+python components for the goocanvas package.
+
+
+%package python3
+Summary: python3 components for the goocanvas package.
+Group: Default
+Requires: python3-core
+
+%description python3
+python3 components for the goocanvas package.
+
+
 %prep
 %setup -q -n goocanvas-2.0.4
 
@@ -83,7 +114,14 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1513002015
+export SOURCE_DATE_EPOCH=1557008456
+export AR=gcc-ar
+export RANLIB=gcc-ranlib
+export NM=gcc-nm
+export CFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
+export FCFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
+export FFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
+export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=4 "
 %configure --disable-static
 make  %{?_smp_mflags}
 
@@ -95,8 +133,10 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1513002015
+export SOURCE_DATE_EPOCH=1557008456
 rm -rf %{buildroot}
+mkdir -p %{buildroot}/usr/share/package-licenses/goocanvas
+cp COPYING %{buildroot}/usr/share/package-licenses/goocanvas/COPYING
 %make_install
 %find_lang goocanvas2
 
@@ -132,7 +172,7 @@ rm -rf %{buildroot}
 /usr/lib64/pkgconfig/goocanvas-2.0.pc
 
 %files doc
-%defattr(-,root,root,-)
+%defattr(0644,root,root,0755)
 /usr/share/gtk-doc/html/goocanvas2/GooCanvas.html
 /usr/share/gtk-doc/html/goocanvas2/GooCanvasEllipse.html
 /usr/share/gtk-doc/html/goocanvas2/GooCanvasEllipseModel.html
@@ -190,6 +230,17 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 /usr/lib64/libgoocanvas-2.0.so.9
 /usr/lib64/libgoocanvas-2.0.so.9.3.2
+
+%files license
+%defattr(0644,root,root,0755)
+/usr/share/package-licenses/goocanvas/COPYING
+
+%files python
+%defattr(-,root,root,-)
+
+%files python3
+%defattr(-,root,root,-)
+/usr/lib/python3*/*
 
 %files locales -f goocanvas2.lang
 %defattr(-,root,root,-)
