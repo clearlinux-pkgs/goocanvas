@@ -4,7 +4,7 @@
 #
 Name     : goocanvas
 Version  : 2.0.4
-Release  : 9
+Release  : 10
 URL      : https://download.gnome.org/sources/goocanvas/2.0/goocanvas-2.0.4.tar.xz
 Source0  : https://download.gnome.org/sources/goocanvas/2.0/goocanvas-2.0.4.tar.xz
 Summary  : A cairo canvas widget for GTK+
@@ -48,6 +48,7 @@ Group: Development
 Requires: goocanvas-lib = %{version}-%{release}
 Requires: goocanvas-data = %{version}-%{release}
 Provides: goocanvas-devel = %{version}-%{release}
+Requires: goocanvas = %{version}-%{release}
 Requires: goocanvas = %{version}-%{release}
 
 %description dev
@@ -108,13 +109,16 @@ python3 components for the goocanvas package.
 
 %prep
 %setup -q -n goocanvas-2.0.4
+cd %{_builddir}/goocanvas-2.0.4
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-export LANG=C
-export SOURCE_DATE_EPOCH=1557008456
+export LANG=C.UTF-8
+export SOURCE_DATE_EPOCH=1582931309
+# -Werror is for werrorists
+export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
@@ -126,17 +130,17 @@ export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=4 "
 make  %{?_smp_mflags}
 
 %check
-export LANG=C
+export LANG=C.UTF-8
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1557008456
+export SOURCE_DATE_EPOCH=1582931309
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/goocanvas
-cp COPYING %{buildroot}/usr/share/package-licenses/goocanvas/COPYING
+cp %{_builddir}/goocanvas-2.0.4/COPYING %{buildroot}/usr/share/package-licenses/goocanvas/bf50bac24e7ec325dbb09c6b6c4dcc88a7d79e8f
 %make_install
 %find_lang goocanvas2
 
@@ -233,7 +237,7 @@ cp COPYING %{buildroot}/usr/share/package-licenses/goocanvas/COPYING
 
 %files license
 %defattr(0644,root,root,0755)
-/usr/share/package-licenses/goocanvas/COPYING
+/usr/share/package-licenses/goocanvas/bf50bac24e7ec325dbb09c6b6c4dcc88a7d79e8f
 
 %files python
 %defattr(-,root,root,-)
