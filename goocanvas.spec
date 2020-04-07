@@ -4,10 +4,10 @@
 #
 Name     : goocanvas
 Version  : 2.0.4
-Release  : 10
+Release  : 11
 URL      : https://download.gnome.org/sources/goocanvas/2.0/goocanvas-2.0.4.tar.xz
 Source0  : https://download.gnome.org/sources/goocanvas/2.0/goocanvas-2.0.4.tar.xz
-Summary  : A cairo canvas widget for GTK+
+Summary  : A GTK+ canvas widget using cairo
 Group    : Development/Tools
 License  : LGPL-2.0
 Requires: goocanvas-data = %{version}-%{release}
@@ -48,7 +48,6 @@ Group: Development
 Requires: goocanvas-lib = %{version}-%{release}
 Requires: goocanvas-data = %{version}-%{release}
 Provides: goocanvas-devel = %{version}-%{release}
-Requires: goocanvas = %{version}-%{release}
 Requires: goocanvas = %{version}-%{release}
 
 %description dev
@@ -116,15 +115,14 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1582931309
-# -Werror is for werrorists
+export SOURCE_DATE_EPOCH=1586232192
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
 export CFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
-export FCFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
-export FFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
+export FCFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=4 "
+export FFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=4 "
 export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=4 "
 %configure --disable-static
 make  %{?_smp_mflags}
@@ -137,7 +135,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1582931309
+export SOURCE_DATE_EPOCH=1586232192
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/goocanvas
 cp %{_builddir}/goocanvas-2.0.4/COPYING %{buildroot}/usr/share/package-licenses/goocanvas/bf50bac24e7ec325dbb09c6b6c4dcc88a7d79e8f
