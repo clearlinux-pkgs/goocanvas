@@ -4,7 +4,7 @@
 #
 Name     : goocanvas
 Version  : 3.0.0
-Release  : 21
+Release  : 22
 URL      : https://download.gnome.org/sources/goocanvas/3.0/goocanvas-3.0.0.tar.xz
 Source0  : https://download.gnome.org/sources/goocanvas/3.0/goocanvas-3.0.0.tar.xz
 Summary  : A GTK+ canvas widget using cairo
