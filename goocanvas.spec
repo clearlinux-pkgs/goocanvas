@@ -4,7 +4,7 @@
 #
 Name     : goocanvas
 Version  : 3.0.0
-Release  : 29
+Release  : 30
 URL      : https://download.gnome.org/sources/goocanvas/3.0/goocanvas-3.0.0.tar.xz
 Source0  : https://download.gnome.org/sources/goocanvas/3.0/goocanvas-3.0.0.tar.xz
 Summary  : A GTK+ canvas widget using cairo
@@ -115,7 +115,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1635735177
+export SOURCE_DATE_EPOCH=1664152152
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -135,10 +135,10 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1635735177
+export SOURCE_DATE_EPOCH=1664152152
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/goocanvas
-cp %{_builddir}/goocanvas-3.0.0/COPYING %{buildroot}/usr/share/package-licenses/goocanvas/bf50bac24e7ec325dbb09c6b6c4dcc88a7d79e8f
+cp %{_builddir}/goocanvas-%{version}/COPYING %{buildroot}/usr/share/package-licenses/goocanvas/bf50bac24e7ec325dbb09c6b6c4dcc88a7d79e8f || :
 %make_install
 %find_lang goocanvas3
 
